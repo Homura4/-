@@ -1,0 +1,7 @@
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\bin\Debug\Business.dll
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\bin\Debug\Business.pdb
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\bin\Debug\MySql.Data.dll
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\obj\Debug\Business.csproj.CopyComplete
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\obj\Debug\Business.dll
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\Business\obj\Debug\Business.pdb

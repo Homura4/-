@@ -16,22 +16,23 @@ namespace Business.Business
         /// <summary>
         /// 查询最近的登陆记录
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
-        /// <returns></returns>
-        public IEnumerable<UserLog> GetInfoByMaxTime(string UserId, int PartnerId)
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
+        /// <returns>登录记录</returns>
+        public IEnumerable<UserLog> GetInfoByMaxTime(string userId, int partnerId)
         {
-            var cache = MyCache.GetCache("userLog_" + UserId+"_"+ PartnerId);//先读取
+            //缓存的key
+            string cacheKey = "userLog_" + userId + "_" + partnerId;
+            var cache = MyCache.GetCache(cacheKey);//先读取
             if (cache == null)//如果没有该缓存
             {
-                logData logdb = new logData();
-                var queryCompany = logdb.GetInfoByMaxTime(UserId, PartnerId); ;//从数据库取出
-                var userLog = queryCompany.ToList();
+                LogData logdb = new LogData();
+                var userLog = logdb.GetInfoByMaxTime(userId, partnerId); ;//从数据库取出
                 if (userLog == null || userLog.Count == 0)//如果没有数据直接返回
                 {
                     return userLog;
                 }
-                MyCache.SetCache("userLog_"+ UserId + "_" + PartnerId, userLog);//添加缓存
+                MyCache.SetCache(cacheKey, userLog);//添加缓存
                 return userLog;
             }
             var result = (List<UserLog>)cache;//有就直接返回该缓存
@@ -41,24 +42,24 @@ namespace Business.Business
         /// <summary>
         /// 获取玩家参加活动记录
         /// </summary>
-        /// <param name="UAId"></param>
+        /// <param name="activityId"></param>
         /// <param name="PlayerId"></param>
         /// <returns></returns>
-        public IEnumerable<UserActivity> GetActitvityInfo(string UAId, Guid PlayerId)
+        public IEnumerable<UserActivity> GetActitvityInfo(string activityId, Guid PlayerId)
         {
-
-            var cache = MyCache.GetCache("ActitvityInfo_" + UAId + "_" + PlayerId);//先读取
+            //缓存的key
+            string cacheKey = "ActitvityInfo_" + activityId + "_" + PlayerId;
+            var cache = MyCache.GetCache(cacheKey);//先读取
             if (cache == null )//如果没有该缓存
             {
-                logData logdb = new logData();
-                var queryCompany = logdb.GetActitvityInfo(UAId, PlayerId); ;//从数据库取出
-                var actitvityInfo = queryCompany.ToList();
+                LogData logdb = new LogData();
+                var actitvityInfo = logdb.GetActitvityInfo(activityId, PlayerId); ;//从数据库取出
                 if (actitvityInfo == null || actitvityInfo.Count == 0)//如果没有数据直接返回
                 {
                     return actitvityInfo;
                 }
 
-                MyCache.SetCache("ActitvityInfo_"+UAId+"_"+ PlayerId, actitvityInfo);//添加缓存
+                MyCache.SetCache(cacheKey, actitvityInfo);//添加缓存
                 return actitvityInfo;
             }
 
@@ -69,24 +70,24 @@ namespace Business.Business
         /// <summary>
         /// 设置玩家已经参与活动
         /// </summary>
-        /// <param name="UAId">活动id</param>
-        /// <param name="PlayerId">玩家id</param>
+        /// <param name="activityId">活动id</param>
+        /// <param name="playerId">玩家id</param>
         /// <param name="Actitvity">玩家参加活动状态未参加 = 0,参加中 = 1,已参加 = 2,没有资格 = 3,未找到玩家 =4</param>
-        /// <returns></returns>
-        public bool SetActitvityStatus(string UAId, Guid PlayerId, int ActitvityStatus)
+        /// <returns>是否设置成功</returns>
+        public bool SetActitvityStatus(string activityId, Guid playerId, int actitvityStatus)
         {
             //声明
-            logData logdb = new logData();
+            LogData logdb = new LogData();
             bool relult;
             //锁定
             lock (logdb)
             {
-                relult = logdb.SetActitvityStatus(UAId, PlayerId, 1);//访问数据库
+                relult = logdb.SetActitvityStatus(activityId, playerId, 1);//访问数据库
             }
 
             if (relult)
             {
-                MyCache.RemoveAllCache("ActitvityInfo_" + UAId + "_" + PlayerId);//移除缓存
+                MyCache.RemoveAllCache("ActitvityInfo_" + activityId + "_" + playerId);//移除缓存
             }
 
             return relult;

@@ -12,7 +12,7 @@ namespace Business.Models
     public class UserActivity
     {
         /// <summary>
-        /// 参与活动id
+        /// 表id
         /// </summary>
         public int UAId { get; set; } = 0;
 
@@ -26,5 +26,9 @@ namespace Business.Models
         /// </summary>
         public int ActitvityStatus { get; set; } = 3;
 
+        /// <summary>
+        /// 参与活动id
+        /// </summary>
+        public int ActivityId { get; set; } = 0;
     }
 }

@@ -48,19 +48,19 @@ namespace Business.Tool
         /// </summary>
         /// <param name="value">值</param>
         /// <returns>提示语句</returns>
-        public static string SwitchRelult(int value)
+        public static string SwitchRelult(RelultInfo value)
         {
             switch (value)
             {
-                case 0:
+                case RelultInfo.Uncommitted:
                     return "未参加";
-                case 1:
+                case RelultInfo.InJoin:
                     return "参加中";
-                case 2:
+                case RelultInfo.EndJoin:
                     return "已参加";
-                case 3:
+                case RelultInfo.NotQualified:
                     return "没有资格";
-                default:
+                default :
                     return "未找到玩家";
             }
         }

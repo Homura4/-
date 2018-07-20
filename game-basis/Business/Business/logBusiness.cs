@@ -13,37 +13,40 @@ namespace Business.Business
     /// <summary>
     /// 逻辑处理
     /// </summary>
-    public class logBusiness
+    public class LogBusiness
     {
         /// <summary>
         /// 查询是否有资格参加活动
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
         /// <returns></returns>
-        public Transformation.RelultInfo Qualifications(string UserId, int PartnerId)
+        public Transformation.RelultInfo Qualifications(string userId, int partnerId)
         {
             //声明
             CacheData logdata = new CacheData();
             Transformation.RelultInfo relult = Transformation.RelultInfo.NotQualified;
+            //参加回归活动的最低天数
+            int days = 30;
 
             //获取玩家登录信息
-            var maxTimeInfo = logdata.GetInfoByMaxTime(UserId, PartnerId).FirstOrDefault();
+            var maxTimeInfo = logdata.GetInfoByMaxTime(userId, partnerId).FirstOrDefault();
             if (maxTimeInfo ==null || maxTimeInfo.PlayerId == Guid.Empty)
             {
                 return Transformation.RelultInfo.NotPlayer;//没找到玩家
             }
             //获取玩家参与活动信息
             var actitvitData = logdata.GetActitvityInfo("1", maxTimeInfo.PlayerId).FirstOrDefault();
-            if (actitvitData == null || actitvitData.UAId == 0)
+            if (actitvitData == null || actitvitData.ActivityId == 0)
             {
                 return Transformation.RelultInfo.NotQualified;//没有资格
             }
             //判断玩家参与活动资格
-            if (actitvitData.ActitvityStatus != 1 && actitvitData.ActitvityStatus !=2)
+            if (actitvitData.ActitvityStatus != (int)Transformation.RelultInfo.InJoin && 
+                actitvitData.ActitvityStatus != (int)Transformation.RelultInfo.EndJoin)
             {
                 //大于三十天返回可以参加活动
-                if ((DateTime.Now - maxTimeInfo.LoginTime).Days >= 30)
+                if ((DateTime.Now - maxTimeInfo.LoginTime).Days >= days)
                 {
                     relult = Transformation.RelultInfo.Uncommitted;//未参加
                 }
@@ -52,7 +55,7 @@ namespace Business.Business
                     relult = Transformation.RelultInfo.NotQualified;//没有资格
                 }
             }
-            else if (actitvitData.ActitvityStatus  == 1)
+            else if (actitvitData.ActitvityStatus  == (int)Transformation.RelultInfo.InJoin)
             {
                 relult = Transformation.RelultInfo.InJoin;//参加中
             }
@@ -68,18 +71,22 @@ namespace Business.Business
         /// <summary>
         /// 设置玩家已经参与活动
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
         /// <returns></returns>
-        public string SetActitvityStatus(string UserId, int PartnerId)
+        public string SetActitvityStatus(string userId, int partnerId)
         {
             ///验证与声明
             CacheData logdb = new CacheData();
             var relult = "";
 
             //获取玩家登录信息
-            var maxTimeInfo = logdb.GetInfoByMaxTime(UserId, PartnerId).FirstOrDefault();
-            if (maxTimeInfo == null || maxTimeInfo.PlayerId == Guid.Empty)
+            var maxTimeInfo = logdb.GetInfoByMaxTime(userId, partnerId).FirstOrDefault();
+            if (maxTimeInfo == null)
+            {
+                return "未找到玩家";
+            }
+            if (maxTimeInfo.PlayerId == Guid.Empty)
             {
                 return "未找到玩家";
             }

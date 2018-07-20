@@ -19,28 +19,28 @@ namespace game_basis.Controllers
         /// <summary>
         /// 判断有没有资格参加活动
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
         /// <returns></returns>
         [HttpPost]
         [CacheFilter(CacheTimeDuration = 10)]
-        public HttpResponseMessage Qualifications(string UserId, int PartnerId)
+        public HttpResponseMessage Qualifications(string userId, int partnerId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
             //入参验证
-            if (UserId == null || PartnerId == 0)
+            if (userId == null || partnerId == 0)
             {
                 response.Content = new StringContent("入参为空");    // 响应内容
             }
-            if (UserId.Length > 20 || Math.Log(PartnerId) > 20)
+            if (userId.Length > 20 || Math.Log(partnerId) > 20)
             {
                 response.Content = new StringContent("入参错误");    // 响应内容
             }
             try
             {
-                var relult = new logBusiness().Qualifications(UserId, PartnerId);
-                response.Content = new StringContent(Transformation.SwitchRelult((int)relult));    // 响应内容
+                var relult = new LogBusiness().Qualifications(userId, partnerId);
+                response.Content = new StringContent(Transformation.SwitchRelult(relult));    // 响应内容
             }
             catch (Exception e)
             {
@@ -54,26 +54,26 @@ namespace game_basis.Controllers
         /// <summary>
         /// 设置此玩家已经参与了老玩家回归活动
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
         /// <returns></returns>
         [HttpPost]
-        public HttpResponseMessage SetActitvityStatus(string UserId, int PartnerId)
+        public HttpResponseMessage SetActitvityStatus(string userId, int partnerId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
             //入参验证
-            if (UserId == null || PartnerId == 0)
+            if (userId == null || partnerId == 0)
             {
                 response.Content = new StringContent("入参为空");    // 响应内容
             }
-            if (UserId.Length > 20 || Math.Log(PartnerId) > 20)
+            if (userId.Length > 20 || Math.Log(partnerId) > 20)
             {
                 response.Content = new StringContent("入参错误");    // 响应内容
             }
             try
             {
-                var relult = new logBusiness().SetActitvityStatus(UserId, PartnerId);
+                var relult = new LogBusiness().SetActitvityStatus(userId, partnerId);
                 response.Content = new StringContent(relult);    // 响应内容
             }
             catch (Exception e)

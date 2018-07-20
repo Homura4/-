@@ -16,52 +16,59 @@ namespace Business.DataAccess
     /// <summary>
     /// 数据库访问
     /// </summary>
-    public class logData
+    public class LogData
     {
         //利用ConfigurationManager获取连接数据库字符串
         static string connString = System.Configuration.ConfigurationManager.AppSettings["gamedb"];
-        //链接
-        MySqlConnection conn = new MySqlConnection(connString);
+
 
         /// <summary>
         /// 查询最近的登陆记录
         /// </summary>
-        /// <param name="UserId">用户id</param>
-        /// <param name="PartnerId">合作商id</param>
-        public List<UserLog> GetInfoByMaxTime(string UserId, int PartnerId)
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
+        public List<UserLog> GetInfoByMaxTime(string userId, int partnerId)
         {
+            //链接
+            MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
             string query = "SELECT UserId,PartnerID,PlayerId,MAX(LoginTime) FROM userloginfo WHERE UserId =@UserId AND PartnerId = @PartnerId;";
-            var relult = conn.Query<UserLog>(query, new { @UserId = UserId, @PartnerId= PartnerId }).ToList();
+            var relult = conn.Query<UserLog>(query, new { @UserId = userId, @PartnerId= partnerId }).ToList();
+
             return relult;
         }
 
         /// <summary>
         /// 获取玩家参加活动记录
         /// </summary>
-        /// <param name="UAId"></param>
-        /// <param name="PlayerId"></param>
+        /// <param name="activityId">活动id</param>
+        /// <param name="playerId">玩家id</param>
         /// <returns></returns>
-        public List<UserActivity> GetActitvityInfo(string UAId, Guid PlayerId)
+        public List<UserActivity> GetActitvityInfo(string activityId, Guid playerId)
         {
+            //链接
+            MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
-            string query = "SELECT UAId,PlayerId,ActitvityStatus FROM useractivity WHERE UAId =@UAId AND PlayerId = @PlayerId;";
-            var relult = conn.Query<UserActivity>(query, new { @UAId = UAId, @PlayerId = PlayerId }).ToList();
+            string query = "SELECT UAId,PlayerId,ActitvityStatus,ActivityId FROM useractivity WHERE ActivityId =@ActivityId AND PlayerId = @PlayerId;";
+            var relult = conn.Query<UserActivity>(query, new { @ActivityId = activityId, @PlayerId = playerId }).ToList();
+
             return relult;
         }
 
         /// <summary>
         /// 设置玩家已经参与活动
         /// </summary>
-        /// <param name="UAId">活动id</param>
-        /// <param name="PlayerId">玩家id</param>
+        /// <param name="activityId">活动id</param>
+        /// <param name="playerId">玩家id</param>
         /// <param name="Actitvity">玩家参加活动状态</param>
         /// <returns></returns>
-        public bool SetActitvityStatus(string UAId,Guid PlayerId,int ActitvityStatus)
+        public bool SetActitvityStatus(string activityId,Guid playerId,int actitvityStatus)
         {
+            //链接
+            MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
-            string query = "UPDATE useractivity SET ActitvityStatus=@ActitvityStatus WHERE PlayerId =@PlayerId AND UAId=@UAId";
-            var relult = conn.Execute(query, new { @UAId = UAId, @PlayerId= PlayerId, @ActitvityStatus = ActitvityStatus })>0;
+            string query = "UPDATE useractivity SET ActitvityStatus=@ActitvityStatus WHERE PlayerId =@PlayerId AND ActivityId=@ActivityId";
+            var relult = conn.Execute(query, new { @ActivityId = activityId, @PlayerId= playerId, @ActitvityStatus = actitvityStatus })>0;
 
             return relult;
         }

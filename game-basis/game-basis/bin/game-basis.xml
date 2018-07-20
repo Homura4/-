@@ -575,16 +575,16 @@
             <summary>
             判断有没有资格参加活动
             </summary>
-            <param name="UserId">用户id</param>
-            <param name="PartnerId">合作商id</param>
+            <param name="userId">用户id</param>
+            <param name="partnerId">合作商id</param>
             <returns></returns>
         </member>
         <member name="M:game_basis.Controllers.UserLogController.SetActitvityStatus(System.String,System.Int32)">
             <summary>
             设置此玩家已经参与了老玩家回归活动
             </summary>
-            <param name="UserId">用户id</param>
-            <param name="PartnerId">合作商id</param>
+            <param name="userId">用户id</param>
+            <param name="partnerId">合作商id</param>
             <returns></returns>
         </member>
         <member name="T:game_basis.Models.UserLog">

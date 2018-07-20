@@ -26,19 +26,19 @@ namespace game_basis.Controllers
         [CacheFilter(CacheTimeDuration = 10)]
         public HttpResponseMessage Qualifications(string userId, int partnerId)
         {
+            //声明
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
             //入参验证
-            if (userId == null || partnerId == 0)
+            string refVer = Transformation.RefVerification(userId, partnerId);
+            if (refVer !=string.Empty)
             {
-                response.Content = new StringContent("入参为空");    // 响应内容
-            }
-            if (userId.Length > 20 || Math.Log(partnerId) > 20)
-            {
-                response.Content = new StringContent("入参错误");    // 响应内容
+                response.Content = new StringContent(refVer);    // 响应内容
+                return response;
             }
             try
             {
+                //执行逻辑
                 var relult = new LogBusiness().Qualifications(userId, partnerId);
                 response.Content = new StringContent(Transformation.SwitchRelult(relult));    // 响应内容
             }
@@ -63,16 +63,15 @@ namespace game_basis.Controllers
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
             //入参验证
-            if (userId == null || partnerId == 0)
+            string refVer = Transformation.RefVerification(userId, partnerId);
+            if (refVer != string.Empty)
             {
-                response.Content = new StringContent("入参为空");    // 响应内容
-            }
-            if (userId.Length > 20 || Math.Log(partnerId) > 20)
-            {
-                response.Content = new StringContent("入参错误");    // 响应内容
+                response.Content = new StringContent(refVer);    // 响应内容
+                return response;
             }
             try
             {
+                //执行逻辑
                 var relult = new LogBusiness().SetActitvityStatus(userId, partnerId);
                 response.Content = new StringContent(relult);    // 响应内容
             }

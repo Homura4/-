@@ -48,8 +48,8 @@
     <Compile Include="Tool\MyCache.cs" />
     <Compile Include="Tool\SqlMapper.cs" />
     <Compile Include="Business\CacheData.cs" />
-    <Compile Include="Business\logBusiness.cs" />
-    <Compile Include="DataAccess\logData.cs" />
+    <Compile Include="Business\LogBusiness.cs" />
+    <Compile Include="DataAccess\LogData.cs" />
     <Compile Include="Models\UserActivity.cs" />
     <Compile Include="Models\UserLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

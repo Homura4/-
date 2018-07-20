@@ -79,6 +79,7 @@ namespace Business.Business
             ///验证与声明
             CacheData logdb = new CacheData();
             var relult = "";
+            string activityId = "1";//活动id
 
             //获取玩家登录信息
             var maxTimeInfo = logdb.GetInfoByMaxTime(userId, partnerId).FirstOrDefault();
@@ -90,8 +91,9 @@ namespace Business.Business
             {
                 return "未找到玩家";
             }
+            
             //写入活动状态
-            relult = logdb.SetActitvityStatus("1", maxTimeInfo.PlayerId, 1)?"写入成功":"写入失败";
+            relult = logdb.SetActitvityStatus(activityId, maxTimeInfo.PlayerId, (int)Transformation.RelultInfo.InJoin) ?"写入成功":"写入失败";
 
             return relult;
         }

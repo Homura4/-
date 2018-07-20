@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Models;
 using Dapper;
-using System.Linq;
 using MySql.Data.MySqlClient;
 
 namespace Business.DataAccess

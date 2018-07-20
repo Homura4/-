@@ -12,7 +12,7 @@ namespace Business.Tool
     public static class Transformation
     {
         /// <summary>
-        /// 返回类型
+        /// 返回活动状态
         /// </summary>
         public enum RelultInfo
         {
@@ -63,6 +63,45 @@ namespace Business.Tool
                 default :
                     return "未找到玩家";
             }
+        }
+
+        /// <summary>
+        /// 入参验证
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="partnerId">合作商id</param>
+        /// <returns>提示</returns>
+        public static string RefVerification(string userId, int partnerId)
+        {
+            string relult = string.Empty;
+            //userId验证
+            if (string.IsNullOrEmpty(userId))
+            {
+                relult = "用户id为空";
+            }
+            if (userId.Length > 20)
+            {
+                relult = "用户id长度大于20";
+            }
+            if (userId.IndexOf(" ") > -1)
+            {
+                relult = "用户id不能含有空格";
+            }
+            //partnerId验证
+            if (partnerId == 0)
+            {
+                relult = "合作公司id为空";
+            }
+            if (partnerId > 999999999)
+            {
+                relult = "合作公司id不超过9位";    // 响应内容
+            }
+            if (partnerId < 0)
+            {
+                relult = "合作公司id不为负数";
+            }
+
+            return relult;
         }
     }
 }

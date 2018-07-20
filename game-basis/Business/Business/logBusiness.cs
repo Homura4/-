@@ -91,7 +91,12 @@ namespace Business.Business
             {
                 return "未找到玩家";
             }
-            
+            //判断是否已经参加活动
+            var actitvityInfo = logdb.GetActitvityInfo(activityId, maxTimeInfo.PlayerId);
+            if (actitvityInfo.Count() > 0)
+            {
+                return "玩家已参加活动";
+            }
             //写入活动状态
             relult = logdb.SetActitvityStatus(activityId, maxTimeInfo.PlayerId, (int)Transformation.RelultInfo.InJoin) ?"写入成功":"写入失败";
 

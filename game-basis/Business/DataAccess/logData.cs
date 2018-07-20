@@ -66,7 +66,7 @@ namespace Business.DataAccess
             //链接
             MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
-            string query = "UPDATE useractivity SET ActitvityStatus=@ActitvityStatus WHERE PlayerId =@PlayerId AND ActivityId=@ActivityId";
+            string query = "INSERT INTO useractivity(PlayerId,ActitvityStatus,ActivityId) VALUES(@PlayerId,@ActitvityStatus,@ActivityId);";
             var relult = conn.Execute(query, new { @ActivityId = activityId, @PlayerId= playerId, @ActitvityStatus = actitvityStatus })>0;
 
             return relult;

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Business.Business;
 using System.Threading.Tasks;
+using Business.Tool;
 
 namespace game_basis.Controllers
 {
@@ -23,18 +24,23 @@ namespace game_basis.Controllers
         /// <returns></returns>
         [HttpPost]
         [CacheFilter(CacheTimeDuration = 10)]
-        public HttpResponseMessage Qualifications(string UserId, string PartnerId)
+        public HttpResponseMessage Qualifications(string UserId, int PartnerId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
-            response.Content = new StringContent("操作失败");    // 响应内容
+            //入参验证
+            if (UserId == null || PartnerId == 0)
+            {
+                response.Content = new StringContent("入参为空");    // 响应内容
+            }
+            if (UserId.Length > 20 || Math.Log(PartnerId) > 20)
+            {
+                response.Content = new StringContent("入参错误");    // 响应内容
+            }
             try
             {
-                if (UserId != null && PartnerId != null)
-                {
-                    var relult = new logBusiness().qualifications(UserId, PartnerId);
-                    response.Content = new StringContent(relult == 0 ? "有资格未参加" : relult == 1 ? "已参加" : "没资格");    // 响应内容
-                }
+                var relult = new logBusiness().Qualifications(UserId, PartnerId);
+                response.Content = new StringContent(Transformation.SwitchRelult((int)relult));    // 响应内容
             }
             catch (Exception e)
             {
@@ -52,18 +58,23 @@ namespace game_basis.Controllers
         /// <param name="PartnerId">合作商id</param>
         /// <returns></returns>
         [HttpPost]
-        public HttpResponseMessage UpdateActivity(string UserId, string PartnerId)
+        public HttpResponseMessage SetActitvityStatus(string UserId, int PartnerId)
         {
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
-            response.Content = new StringContent("操作失败");    // 响应内容
+            //入参验证
+            if (UserId == null || PartnerId == 0)
+            {
+                response.Content = new StringContent("入参为空");    // 响应内容
+            }
+            if (UserId.Length > 20 || Math.Log(PartnerId) > 20)
+            {
+                response.Content = new StringContent("入参错误");    // 响应内容
+            }
             try
             {
-                if (UserId != null && PartnerId != null)
-                {
-                    var relult = new logBusiness().UpdateActivity(UserId, PartnerId);
-                    response.Content = new StringContent(relult ? "设置成功" : "设置失败");    // 响应内容
-                }
+                var relult = new logBusiness().SetActitvityStatus(UserId, PartnerId);
+                response.Content = new StringContent(relult);    // 响应内容
             }
             catch (Exception e)
             {

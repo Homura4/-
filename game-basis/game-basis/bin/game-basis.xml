@@ -571,7 +571,7 @@
             老用户判断与写入
             </summary>
         </member>
-        <member name="M:game_basis.Controllers.UserLogController.Qualifications(System.String,System.String)">
+        <member name="M:game_basis.Controllers.UserLogController.Qualifications(System.String,System.Int32)">
             <summary>
             判断有没有资格参加活动
             </summary>
@@ -579,7 +579,7 @@
             <param name="PartnerId">合作商id</param>
             <returns></returns>
         </member>
-        <member name="M:game_basis.Controllers.UserLogController.UpdateActivity(System.String,System.String)">
+        <member name="M:game_basis.Controllers.UserLogController.SetActitvityStatus(System.String,System.Int32)">
             <summary>
             设置此玩家已经参与了老玩家回归活动
             </summary>

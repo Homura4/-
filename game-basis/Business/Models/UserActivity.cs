@@ -22,8 +22,9 @@ namespace Business.Models
         public Guid PlayerId { get; set; }
 
         /// <summary>
-        /// 活动状态0:没有参加1:参加中2:无法参加
+        /// 活动状态 未参加 = 0,参加中 = 1,已参加 = 2,没有资格 = 3,未找到玩家 =4
         /// </summary>
-        public int ActitvityStatus { get; set; } = 2;
+        public int ActitvityStatus { get; set; } = 3;
+
     }
 }

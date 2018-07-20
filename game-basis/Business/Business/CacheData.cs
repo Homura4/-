@@ -19,13 +19,13 @@ namespace Business.Business
         /// <param name="UserId">用户id</param>
         /// <param name="PartnerId">合作商id</param>
         /// <returns></returns>
-        public IEnumerable<UserLog> GetInfoByMaxTime(string UserId, string PartnerId)
+        public IEnumerable<UserLog> GetInfoByMaxTime(string UserId, int PartnerId)
         {
             var cache = MyCache.GetCache("userLog_" + UserId+"_"+ PartnerId);//先读取
             if (cache == null)//如果没有该缓存
             {
                 logData logdb = new logData();
-                var queryCompany = logdb.getInfoByMaxTime(UserId, PartnerId); ;//从数据库取出
+                var queryCompany = logdb.GetInfoByMaxTime(UserId, PartnerId); ;//从数据库取出
                 var userLog = queryCompany.ToList();
                 if (userLog == null || userLog.Count == 0)//如果没有数据直接返回
                 {
@@ -51,7 +51,7 @@ namespace Business.Business
             if (cache == null )//如果没有该缓存
             {
                 logData logdb = new logData();
-                var queryCompany = logdb.getActitvityInfo(UAId, PlayerId); ;//从数据库取出
+                var queryCompany = logdb.GetActitvityInfo(UAId, PlayerId); ;//从数据库取出
                 var actitvityInfo = queryCompany.ToList();
                 if (actitvityInfo == null || actitvityInfo.Count == 0)//如果没有数据直接返回
                 {
@@ -71,13 +71,18 @@ namespace Business.Business
         /// </summary>
         /// <param name="UAId">活动id</param>
         /// <param name="PlayerId">玩家id</param>
-        /// <param name="Actitvity">玩家参加活动状态</param>
+        /// <param name="Actitvity">玩家参加活动状态未参加 = 0,参加中 = 1,已参加 = 2,没有资格 = 3,未找到玩家 =4</param>
         /// <returns></returns>
-        public bool UpdateActivity(string UAId, Guid PlayerId, int ActitvityStatus)
+        public bool SetActitvityStatus(string UAId, Guid PlayerId, int ActitvityStatus)
         {
-
+            //声明
             logData logdb = new logData();
-            var relult = logdb.UpdateActivity(UAId, PlayerId, 1);//访问数据库
+            bool relult;
+            //锁定
+            lock (logdb)
+            {
+                relult = logdb.SetActitvityStatus(UAId, PlayerId, 1);//访问数据库
+            }
 
             if (relult)
             {

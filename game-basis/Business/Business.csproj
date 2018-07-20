@@ -45,14 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\MyCache.cs" />
-    <Compile Include="App_Start\SqlMapper.cs" />
+    <Compile Include="Tool\MyCache.cs" />
+    <Compile Include="Tool\SqlMapper.cs" />
     <Compile Include="Business\CacheData.cs" />
     <Compile Include="Business\logBusiness.cs" />
     <Compile Include="DataAccess\logData.cs" />
     <Compile Include="Models\UserActivity.cs" />
     <Compile Include="Models\UserLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tool\Transformation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

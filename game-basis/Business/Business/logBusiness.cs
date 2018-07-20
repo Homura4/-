@@ -1,5 +1,6 @@
 ﻿using Business.DataAccess;
 using Business.Models;
+using Business.Tool;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,59 +15,76 @@ namespace Business.Business
     /// </summary>
     public class logBusiness
     {
-
-
-
         /// <summary>
         /// 查询是否有资格参加活动
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <param name="PartnerId"></param>
+        /// <param name="UserId">用户id</param>
+        /// <param name="PartnerId">合作商id</param>
         /// <returns></returns>
-        public int qualifications(string UserId, string PartnerId)
+        public Transformation.RelultInfo Qualifications(string UserId, int PartnerId)
         {
             //声明
             CacheData logdata = new CacheData();
-            string userid = UserId.Length < 20 ? UserId : string.Empty;
-            string partnerid = PartnerId.Length <= 20 ? Regex.IsMatch(PartnerId, @"^[+-]?\d*[.]?\d*$") ? 
-                PartnerId : string.Empty : string.Empty;
-            int relult = 2;
-            
+            Transformation.RelultInfo relult = Transformation.RelultInfo.NotQualified;
+
             //获取玩家登录信息
-            var maxTimeInfo = logdata.GetInfoByMaxTime(userid, partnerid).FirstOrDefault();
-            maxTimeInfo = maxTimeInfo == null ? new UserLog() : maxTimeInfo;
+            var maxTimeInfo = logdata.GetInfoByMaxTime(UserId, PartnerId).FirstOrDefault();
+            if (maxTimeInfo ==null || maxTimeInfo.PlayerId == Guid.Empty)
+            {
+                return Transformation.RelultInfo.NotPlayer;//没找到玩家
+            }
             //获取玩家参与活动信息
-            var data = logdata.GetActitvityInfo("1", maxTimeInfo.PlayerId).FirstOrDefault();
-            data = data == null ? new UserActivity() : data;
+            var actitvitData = logdata.GetActitvityInfo("1", maxTimeInfo.PlayerId).FirstOrDefault();
+            if (actitvitData == null || actitvitData.UAId == 0)
+            {
+                return Transformation.RelultInfo.NotQualified;//没有资格
+            }
             //判断玩家参与活动资格
-            if (data.ActitvityStatus != 1)
+            if (actitvitData.ActitvityStatus != 1 && actitvitData.ActitvityStatus !=2)
             {
                 //大于三十天返回可以参加活动
-                relult = ((DateTime.Now - maxTimeInfo.LoginTime).Days >= 30) ? 0 : 2;
+                if ((DateTime.Now - maxTimeInfo.LoginTime).Days >= 30)
+                {
+                    relult = Transformation.RelultInfo.Uncommitted;//未参加
+                }
+                else
+                {
+                    relult = Transformation.RelultInfo.NotQualified;//没有资格
+                }
             }
+            else if (actitvitData.ActitvityStatus  == 1)
+            {
+                relult = Transformation.RelultInfo.InJoin;//参加中
+            }
+            else
+            {
+                relult = Transformation.RelultInfo.EndJoin;//已参加
+            }
+                 
 
-            return data.UAId == 0 ? 2 : relult;
+            return relult;
         }
 
         /// <summary>
         /// 设置玩家已经参与活动
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <param name="PartnerId"></param>
+        /// <param name="UserId">用户id</param>
+        /// <param name="PartnerId">合作商id</param>
         /// <returns></returns>
-        public bool UpdateActivity(string UserId, string PartnerId)
+        public string SetActitvityStatus(string UserId, int PartnerId)
         {
             ///验证与声明
-            logData logdb = new logData();
-            string userid = UserId.Length < 20 ? UserId : string.Empty;
-            string partnerid = PartnerId.Length <= 20 ? Regex.IsMatch(PartnerId, @"^[+-]?\d*[.]?\d*$") ? 
-                PartnerId : string.Empty : string.Empty;
-            var relult = false;
+            CacheData logdb = new CacheData();
+            var relult = "";
 
             //获取玩家登录信息
-            var maxTimeInfo = logdb.getInfoByMaxTime(userid, partnerid).FirstOrDefault();
+            var maxTimeInfo = logdb.GetInfoByMaxTime(UserId, PartnerId).FirstOrDefault();
+            if (maxTimeInfo == null || maxTimeInfo.PlayerId == Guid.Empty)
+            {
+                return "未找到玩家";
+            }
             //写入活动状态
-            relult = logdb.UpdateActivity("1", maxTimeInfo.PlayerId, 1);
+            relult = logdb.SetActitvityStatus("1", maxTimeInfo.PlayerId, 1)?"写入成功":"写入失败";
 
             return relult;
         }

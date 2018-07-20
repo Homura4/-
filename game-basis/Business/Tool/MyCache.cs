@@ -21,17 +21,24 @@ namespace Business
             var objCache = HttpRuntime.Cache.Get(cacheKey);
             return objCache;
         }
+
         /// <summary>
         /// 设置数据缓存
         /// </summary>
+        /// <param name="cacheKey">key</param>
+        /// <param name="objObject">数据</param>
         public static void SetCache(string cacheKey, object objObject)
         {
             var objCache = HttpRuntime.Cache;
             objCache.Insert(cacheKey, objObject);
         }
+
         /// <summary>
         /// 设置数据缓存
         /// </summary>
+        /// <param name="cacheKey">key</param>
+        /// <param name="objObject">数据</param>
+        /// <param name="timeout">过期时间(秒)</param>
         public static void SetCache(string cacheKey, object objObject, int timeout = 7200)
         {
             try
@@ -48,14 +55,17 @@ namespace Business
                 //throw;
             }
         }
+
         /// <summary>
         /// 移除指定数据缓存
         /// </summary>
+        /// <param name="cacheKey">key</param>
         public static void RemoveAllCache(string cacheKey)
         {
             var cache = HttpRuntime.Cache;
             cache.Remove(cacheKey);
         }
+
         /// <summary>
         /// 移除全部缓存
         /// </summary>

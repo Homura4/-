@@ -28,7 +28,7 @@ namespace Business.DataAccess
         /// </summary>
         /// <param name="UserId">用户id</param>
         /// <param name="PartnerId">合作商id</param>
-        public List<UserLog> getInfoByMaxTime(string UserId, string PartnerId)
+        public List<UserLog> GetInfoByMaxTime(string UserId, int PartnerId)
         {
             //返回单条信息
             string query = "SELECT UserId,PartnerID,PlayerId,MAX(LoginTime) FROM userloginfo WHERE UserId =@UserId AND PartnerId = @PartnerId;";
@@ -42,7 +42,7 @@ namespace Business.DataAccess
         /// <param name="UAId"></param>
         /// <param name="PlayerId"></param>
         /// <returns></returns>
-        public List<UserActivity> getActitvityInfo(string UAId, Guid PlayerId)
+        public List<UserActivity> GetActitvityInfo(string UAId, Guid PlayerId)
         {
             //返回单条信息
             string query = "SELECT UAId,PlayerId,ActitvityStatus FROM useractivity WHERE UAId =@UAId AND PlayerId = @PlayerId;";
@@ -57,7 +57,7 @@ namespace Business.DataAccess
         /// <param name="PlayerId">玩家id</param>
         /// <param name="Actitvity">玩家参加活动状态</param>
         /// <returns></returns>
-        public bool UpdateActivity(string UAId,Guid PlayerId,int ActitvityStatus)
+        public bool SetActitvityStatus(string UAId,Guid PlayerId,int ActitvityStatus)
         {
             //返回单条信息
             string query = "UPDATE useractivity SET ActitvityStatus=@ActitvityStatus WHERE PlayerId =@PlayerId AND UAId=@UAId";

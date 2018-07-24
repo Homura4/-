@@ -1,3 +1,5 @@
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.csproj.CoreCompileInputs.cache
+C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.csprojAssemblyReference.cache
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\ApplicationInsights.config
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\game-basis.dll.config
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\game-basis.xml
@@ -61,7 +63,6 @@ C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Microsoft.Appl
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Microsoft.AspNet.TelemetryCorrelation.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\MySql.Data.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Newtonsoft.Json.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Swagger.Net.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\Swashbuckle.Core.dll
@@ -110,8 +111,6 @@ C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\zh-Hans\System
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.csprojAssemblyReference.cache
-C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.csproj.CoreCompileInputs.cache
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.csproj.CopyComplete
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.dll
 C:\Users\yangyang\Desktop\code\Exercise\game-basis\game-basis\obj\Debug\game-basis.pdb

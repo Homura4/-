@@ -29,6 +29,8 @@ namespace game_basis.Controllers
             //声明
             var response = Request.CreateResponse(HttpStatusCode.OK);
             response.StatusCode = HttpStatusCode.OK;
+            //玩家id 默认返回空 仅用于设置接口验证
+            var playerId = Guid.Empty;
             //入参验证
             string refVer = Transformation.RefVerification(userId, partnerId);
             if (refVer !=string.Empty)
@@ -39,7 +41,7 @@ namespace game_basis.Controllers
             try
             {
                 //执行逻辑
-                var relult = new LogBusiness().Qualifications(userId, partnerId);
+                var relult = new LogBusiness().Qualifications(userId, partnerId,out playerId);
                 response.Content = new StringContent(Transformation.SwitchRelult(relult));    // 响应内容
             }
             catch (Exception e)

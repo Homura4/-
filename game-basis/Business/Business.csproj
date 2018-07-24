@@ -46,11 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\Useractivity.cs" />
     <Compile Include="Tool\MyCache.cs" />
     <Compile Include="Tool\SqlMapper.cs" />
     <Compile Include="Business\CacheData.cs" />
     <Compile Include="Business\LogBusiness.cs" />
-    <Compile Include="DataAccess\LogData.cs" />
+    <Compile Include="DataAccess\UserLogInfo.cs" />
     <Compile Include="Models\UserActivity.cs" />
     <Compile Include="Models\UserLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

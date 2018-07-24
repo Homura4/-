@@ -41,8 +41,8 @@ namespace game_basis.Controllers
             try
             {
                 //执行逻辑
-                var relult = new LogBusiness().Qualifications(userId, partnerId,out playerId);
-                response.Content = new StringContent(Transformation.SwitchRelult(relult));    // 响应内容
+                var result = new LogBusiness().Qualifications(userId, partnerId,out playerId);
+                response.Content = new StringContent(Transformation.SwitchRelult(result));    // 响应内容
             }
             catch (Exception e)
             {

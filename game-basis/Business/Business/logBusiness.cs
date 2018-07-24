@@ -27,7 +27,7 @@ namespace Business.Business
         {
             //声明
             CacheData logdata = new CacheData();
-            Transformation.RelultInfo relult = Transformation.RelultInfo.NotQualified;
+            Transformation.RelultInfo result = Transformation.RelultInfo.NotQualified;
             //参加回归活动的最低天数
             int days = 30;
             //玩家id 默认返回空
@@ -48,20 +48,20 @@ namespace Business.Business
                 if ((DateTime.Now - maxTimeInfo.LoginTime).Days >= days)
                 {
                     playerId = maxTimeInfo.PlayerId;//有资格参加,返回玩家id
-                    relult = Transformation.RelultInfo.Uncommitted;//未参加
+                    result = Transformation.RelultInfo.Uncommitted;//未参加
                 }
                 else
                 {
-                    relult = Transformation.RelultInfo.NotQualified;//没有资格
+                    result = Transformation.RelultInfo.NotQualified;//没有资格
                 }
             }
             else
             {
                 //返回已参加的活动状态
-                relult = (Transformation.RelultInfo)actitvitData.ActitvityStatus;
+                result = (Transformation.RelultInfo)actitvitData.ActitvityStatus;
             }
 
-            return relult;
+            return result;
         }
 
         /// <summary>
@@ -74,16 +74,16 @@ namespace Business.Business
         {
             ///验证与声明
             CacheData logdb = new CacheData();
-            var relult = "";
+            var result = "";
             string activityId = "1";//活动id
             Guid playerId =Guid.Empty;
 
             //获取玩家登录信息
-            var QualificationsRelult = Qualifications(userId, partnerId,out playerId);
+            var qualificationsRelult = Qualifications(userId, partnerId,out playerId);
             //玩家资格验证
-            if (QualificationsRelult != Transformation.RelultInfo.Uncommitted)
+            if (qualificationsRelult != Transformation.RelultInfo.Uncommitted)
             {
-                return Transformation.SwitchRelult(QualificationsRelult);
+                return Transformation.SwitchRelult(qualificationsRelult);
             }
             
             //判断是否已经参加活动
@@ -93,9 +93,10 @@ namespace Business.Business
                 return "玩家已参加活动";
             }
             //写入活动状态
-            relult = logdb.SetActitvityStatus(activityId, playerId, (int)Transformation.RelultInfo.InJoin) ?"写入成功":"写入失败";
+            var contrast = logdb.SetActitvityStatus(activityId, playerId, (int)Transformation.RelultInfo.InJoin);
+            result = contrast ? "写入成功" : "写入失败";
 
-            return relult;
+            return result;
         }
     }
 }

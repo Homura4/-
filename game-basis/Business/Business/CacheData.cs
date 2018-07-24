@@ -13,6 +13,9 @@ namespace Business.Business
     /// </summary>
     public class CacheData
     {
+        //声明数据库写入类,静态全局 多线程并发 活动类
+        private static Useractivity logdb = new Useractivity();
+
         /// <summary>
         /// 查询最近的登陆记录
         /// </summary>
@@ -26,7 +29,7 @@ namespace Business.Business
             var cache = MyCache.GetCache(cacheKey);//先读取
             if (cache == null)//如果没有该缓存
             {
-                LogData logdb = new LogData();
+                UserLogInfo logdb = new UserLogInfo();
                 var userLog = logdb.GetInfoByMaxTime(userId, partnerId); ;//从数据库取出
                 if (userLog == null || userLog.Count == 0)//如果没有数据直接返回
                 {
@@ -52,7 +55,7 @@ namespace Business.Business
             var cache = MyCache.GetCache(cacheKey);//先读取
             if (cache == null )//如果没有该缓存
             {
-                LogData logdb = new LogData();
+                Useractivity logdb = new Useractivity();
                 var actitvityInfo = logdb.GetActitvityInfo(activityId, PlayerId); ;//从数据库取出
                 if (actitvityInfo == null || actitvityInfo.Count == 0)//如果没有数据直接返回
                 {
@@ -76,21 +79,19 @@ namespace Business.Business
         /// <returns>是否设置成功</returns>
         public bool SetActitvityStatus(string activityId, Guid playerId, int actitvityStatus)
         {
-            //声明
-            LogData logdb = new LogData();
-            bool relult;
+            bool result;
             //锁定
             lock (logdb)
             {
-                relult = logdb.SetActitvityStatus(activityId, playerId, 1);//访问数据库
+                result = logdb.SetActitvityStatus(activityId, playerId, 1);//访问数据库
             }
 
-            if (relult)
+            if (result)
             {
                 MyCache.RemoveAllCache("ActitvityInfo_" + activityId + "_" + playerId);//移除缓存
             }
 
-            return relult;
+            return result;
         }
     }
 }

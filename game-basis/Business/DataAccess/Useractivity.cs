@@ -1,41 +1,21 @@
-﻿using System;
+﻿using Business.Models;
+using Dapper;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Business.Models;
-using Dapper;
-using MySql.Data.MySqlClient;
 
 namespace Business.DataAccess
 {
     /// <summary>
-    /// 数据库访问
+    /// 活动类
     /// </summary>
-    public class LogData
+    public class Useractivity
     {
         //利用ConfigurationManager获取连接数据库字符串
         static string connString = System.Configuration.ConfigurationManager.AppSettings["gamedb"];
-
-
-        /// <summary>
-        /// 查询最近的登陆记录
-        /// </summary>
-        /// <param name="userId">用户id</param>
-        /// <param name="partnerId">合作商id</param>
-        public List<UserLog> GetInfoByMaxTime(string userId, int partnerId)
-        {
-            //链接
-            MySqlConnection conn = new MySqlConnection(connString);
-            //返回单条信息
-            string query = "SELECT UserId,PartnerID,PlayerId,MAX(LoginTime) FROM userloginfo WHERE UserId =@UserId AND PartnerId = @PartnerId;";
-            var relult = conn.Query<UserLog>(query, new { @UserId = userId, @PartnerId= partnerId }).ToList();
-
-            return relult;
-        }
 
         /// <summary>
         /// 获取玩家参加活动记录
@@ -49,9 +29,9 @@ namespace Business.DataAccess
             MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
             string query = "SELECT UAId,PlayerId,ActitvityStatus,ActivityId FROM useractivity WHERE ActivityId =@ActivityId AND PlayerId = @PlayerId;";
-            var relult = conn.Query<UserActivity>(query, new { @ActivityId = activityId, @PlayerId = playerId }).ToList();
+            var result = conn.Query<UserActivity>(query, new { @ActivityId = activityId, @PlayerId = playerId }).ToList();
 
-            return relult;
+            return result;
         }
 
         /// <summary>
@@ -61,15 +41,15 @@ namespace Business.DataAccess
         /// <param name="playerId">玩家id</param>
         /// <param name="Actitvity">玩家参加活动状态</param>
         /// <returns></returns>
-        public bool SetActitvityStatus(string activityId,Guid playerId,int actitvityStatus)
+        public bool SetActitvityStatus(string activityId, Guid playerId, int actitvityStatus)
         {
             //链接
             MySqlConnection conn = new MySqlConnection(connString);
             //返回单条信息
             string query = "INSERT INTO useractivity(PlayerId,ActitvityStatus,ActivityId) VALUES(@PlayerId,@ActitvityStatus,@ActivityId);";
-            var relult = conn.Execute(query, new { @ActivityId = activityId, @PlayerId= playerId, @ActitvityStatus = actitvityStatus })>0;
+            var result = conn.Execute(query, new { @ActivityId = activityId, @PlayerId = playerId, @ActitvityStatus = actitvityStatus });
 
-            return relult;
+            return result > 0;
         }
     }
 }
